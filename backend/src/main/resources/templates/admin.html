@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Pending approvals')}"></head>
+<body>
+<header th:replace="~{fragments :: nav}"></header>
+<main class="card">
+  <h1>Pending registration requests</h1>
+  <p class="msg error" th:if="${error}" th:text="${error}"></p>
+  <p class="msg ok" th:if="${success}" th:text="${success}"></p>
+  <table th:unless="${#lists.isEmpty(pending)}">
+    <thead><tr><th>Name</th><th>Email</th><th>Requested</th><th>Actions</th></tr></thead>
+    <tbody>
+      <tr th:each="u : ${pending}">
+        <td th:text="${u.fullName}"></td>
+        <td th:text="${u.email}"></td>
+        <td th:text="${#strings.replace(#strings.substring(u.createdAt, 0, 16), 'T', ' ')}"></td>
+        <td class="actions">
+          <form th:action="@{/admin/users/{id}/approve(id=${u.id})}" method="post" class="inline"><button type="submit">Approve</button></form>
+          <form th:action="@{/admin/users/{id}/reject(id=${u.id})}" method="post" class="inline"><button class="danger" type="submit">Reject</button></form>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="msg" th:if="${#lists.isEmpty(pending)}">No pending requests.</p>
+</main>
+</body>
+</html>

@@ -1,0 +1,4 @@
+backend/target/
+backend/data/*.db
+backend/uploads/*
+!backend/uploads/.gitkeep

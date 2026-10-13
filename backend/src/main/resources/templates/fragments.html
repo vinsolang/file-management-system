@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title)">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="${title} + ' - file-management-system'">file-management-system</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header th:fragment="nav" class="top" th:if="${me != null}">
+  <strong>file-management-system</strong>
+  <span th:text="${me.fullName} + ' (' + ${me.role} + ')'"></span>
+  <span class="spacer"></span>
+  <a class="button" th:href="@{/files}">My files</a>
+  <a class="button" th:if="${me.role.name() == 'ADMIN'}" th:href="@{/admin/users}">Pending approvals</a>
+  <form th:action="@{/logout}" method="post" class="inline"><button class="secondary" type="submit">Log out</button></form>
+</header>
+</body>
+</html>

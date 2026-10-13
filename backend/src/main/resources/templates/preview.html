@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Preview')}"></head>
+<body>
+<header th:replace="~{fragments :: nav}"></header>
+<main class="card">
+  <h1 th:text="${file.name}"></h1>
+  <p>
+    <a class="button" th:href="@{/files(folderId=${file.folderId})}">← Back</a>
+    <a class="button" th:href="@{/api/files/{id}/download(id=${file.id})}">Download</a>
+  </p>
+  <div th:switch="${previewType}">
+    <iframe th:case="'pdf'" class="pdf" th:src="@{/api/files/{id}/preview(id=${file.id})}"></iframe>
+    <img th:case="'image'" class="pv" th:src="@{/api/files/{id}/preview(id=${file.id})}" th:alt="${file.name}">
+    <div th:case="'text'">
+      <p class="msg" th:if="${truncated}">Showing the first 1 MB only. Download the file to see everything.</p>
+      <pre th:text="${text}"></pre>
+    </div>
+    <p th:case="*" class="msg">Preview is not available for this file type. Please download it.</p>
+  </div>
+</main>
+</body>
+</html>
